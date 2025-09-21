@@ -1,4 +1,5 @@
 import { useMemo, useEffect, useState } from "react";
+import BackgroundUploader from "@/components/settings/BackgroundUploader";
 import {
   listUsers,
   sendNotification,
@@ -267,6 +268,23 @@ export default function GM() {
                   </div>
                 ))}
               </div>
+            </div>
+
+            <div className="rounded-xl border border-white/10 bg-white/5 p-4">
+              <div className="text-sm text-neutral-300 mb-2">Planos de Fundo</div>
+              <div className="grid grid-cols-2 gap-4">
+                <BackgroundUploader kind="login" />
+                <BackgroundUploader kind="home" />
+              </div>
+              {selected && (
+                <div className="mt-4">
+                  <div className="text-sm text-neutral-300 mb-2">Planos de Fundo por Jogador</div>
+                  <div className="grid grid-cols-2 gap-4">
+                    <BackgroundUploader kind="login" userId={selected} />
+                    <BackgroundUploader kind="home" userId={selected} />
+                  </div>
+                </div>
+              )}
             </div>
 
             <div className="rounded-xl border border-white/10 bg-white/5 p-4">

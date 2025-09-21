@@ -5,15 +5,28 @@ export type FirebaseStatus =
   | { ready: true; app: FirebaseApp; db: Database }
   | { ready: false; reason: string };
 
+export function getFirebaseApp(): FirebaseApp | null {
+  if (!hasAllValues(config)) return null;
+  return getApps().length ? getApps()[0]! : initializeApp(config);
+}
+
+function normalizeBucket(bucket?: string, projectId?: string): string | undefined {
+  if (!bucket) return bucket;
+  if (bucket.includes("firebasestorage.app")) {
+    // Firebase SDK expects bucket like "<project>.appspot.com"
+    const id = projectId || bucket.split(".")[0];
+    return `${id}.appspot.com`;
+  }
+  return bucket;
+}
+
 const config = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY as string | undefined,
   authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN as string | undefined,
   databaseURL: import.meta.env.VITE_FIREBASE_DATABASE_URL as string | undefined,
   projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID as string | undefined,
-  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET as string | undefined,
-  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID as
-    | string
-    | undefined,
+  storageBucket: normalizeBucket(import.meta.env.VITE_FIREBASE_STORAGE_BUCKET as string | undefined, import.meta.env.VITE_FIREBASE_PROJECT_ID as string | undefined),
+  messagingSenderId: (import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID as string | undefined),
   appId: import.meta.env.VITE_FIREBASE_APP_ID as string | undefined,
 };
 
@@ -29,7 +42,7 @@ export function getFirebase(): FirebaseStatus {
       status = {
         ready: false,
         reason:
-          "Firebase não configurado. Defina variáveis VITE_FIREBASE_* para usar o Realtime Database.",
+          "Firebase não configurado. Defina VITE_FIREBASE_API_KEY, AUTH_DOMAIN, DATABASE_URL, PROJECT_ID, STORAGE_BUCKET, MESSAGING_SENDER_ID e APP_ID.",
       };
       return status;
     }

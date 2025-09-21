@@ -104,9 +104,23 @@ export default function Player() {
     </div>
   );
 
+  const [bgHomeGlobal, setBgHomeGlobal] = useState<string | undefined>(undefined);
+  const [bgHomeUser, setBgHomeUser] = useState<string | undefined>(undefined);
+  useEffect(() => {
+    let unsubs: Array<() => void> = [];
+    (async () => {
+      const mod = await import("@/lib/settings");
+      unsubs.push(mod.listenSettings((s)=> setBgHomeGlobal(s.background?.home)));
+      unsubs.push(mod.listenUserSettings(userId, (s)=> setBgHomeUser(s.background?.home)));
+    })();
+    return () => { unsubs.forEach(u=>u&&u()); };
+  }, [userId]);
+
+  const bgHome = bgHomeUser || bgHomeGlobal;
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-neutral-950 to-black flex items-center justify-center">
-      <PhoneShell userId={userId} title={screen === "home" ? "Jogador" : screen.toUpperCase()} showBack={screen !== "home"} onBack={() => setScreen("home") }>
+      <PhoneShell userId={userId} title={screen === "home" ? "Jogador" : screen.toUpperCase()} showBack={screen !== "home"} onBack={() => setScreen("home") } bgImage={bgHome}>
         {screen === "chat" ? (
           <div className="w-full h-[600px]">
             <WhatsAppChat userId={userId} />
