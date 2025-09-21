@@ -20,15 +20,18 @@ function normalizeBucket(bucket?: string, projectId?: string): string | undefine
   return bucket;
 }
 
-const config = {
-  apiKey: import.meta.env.VITE_FIREBASE_API_KEY as string | undefined,
-  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN as string | undefined,
-  databaseURL: import.meta.env.VITE_FIREBASE_DATABASE_URL as string | undefined,
-  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID as string | undefined,
-  storageBucket: normalizeBucket(import.meta.env.VITE_FIREBASE_STORAGE_BUCKET as string | undefined, import.meta.env.VITE_FIREBASE_PROJECT_ID as string | undefined),
-  messagingSenderId: (import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID as string | undefined),
-  appId: import.meta.env.VITE_FIREBASE_APP_ID as string | undefined,
+const firebaseConfig = {
+  apiKey: "AIzaSyA5kFNfi7bQlokZ-euTicPIYvBBniq8ztE",
+  authDomain: "eternalparadise-b9b5e.firebaseapp.com",
+  databaseURL: "https://eternalparadise-b9b5e-default-rtdb.firebaseio.com",
+  projectId: "eternalparadise-b9b5e",
+  storageBucket: "eternalparadise-b9b5e.firebasestorage.app",
+  messagingSenderId: "1086724470740",
+  appId: "1:1086724470740:web:1d6014c1ad318985cc4841",
+  measurementId: "G-61DQKDG6HJ"
+
 };
+
 
 function hasAllValues(obj: Record<string, unknown>): boolean {
   return Object.values(obj).every((v) => typeof v === "string" && v.length > 0);
