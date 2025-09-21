@@ -23,8 +23,8 @@
   "dependencies": {
     "dotenv": "^17.2.1",
     "express": "^5.1.0",
-    "zod": "^3.25.76",
-    "firebase": "^12.3.0"
+    "firebase": "^12.3.0",
+    "zod": "^3.25.76"
   },
   "devDependencies": {
     "@hookform/resolvers": "^5.2.1",
@@ -75,6 +75,7 @@
     "date-fns": "^4.1.0",
     "embla-carousel-react": "^8.6.0",
     "framer-motion": "^12.23.12",
+    "gh-pages": "^6.3.0",
     "globals": "^16.3.0",
     "input-otp": "^1.4.2",
     "lucide-react": "^0.539.0",
