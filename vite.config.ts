@@ -5,17 +5,18 @@ import { createServer } from "./server";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
-  base: "/", // 👈 necessário para GitHub Pages
+  base: "./",
   server: {
     host: "::",
     port: 8080,
     fs: {
+      // Allow serving files from project root (for index.html) plus client and shared dirs
       allow: ["./", "./client", "./shared"],
       deny: [".env", ".env.*", "*.{crt,pem}", "**/.git/**", "server/**"],
     },
   },
   build: {
-    outDir: "dist/client",
+    outDir: "dist/spa",
   },
   plugins: [react(), expressPlugin()],
   resolve: {
@@ -29,9 +30,11 @@ export default defineConfig(({ mode }) => ({
 function expressPlugin(): Plugin {
   return {
     name: "express-plugin",
-    apply: "serve", // Só aplica no modo dev
+    apply: "serve", // Only apply during development (serve mode)
     configureServer(server) {
       const app = createServer();
+
+      // Add Express app as middleware to Vite dev server
       server.middlewares.use(app);
     },
   };
