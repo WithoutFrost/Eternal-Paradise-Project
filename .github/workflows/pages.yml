@@ -23,28 +23,22 @@ jobs:
 
       - name: Setup PNPM
         uses: pnpm/action-setup@v4
-<<<<<<< HEAD
-=======
         with:
           version: 10
->>>>>>> 7caabfa25e37f71079bf4cf9dd4f1dfbe6095b01
 
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: 'pnpm'
+          cache: pnpm
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile=false
 
       - name: Build
         run: pnpm build
-<<<<<<< HEAD
         env:
           VITE_BASE: "/${{ github.event.repository.name }}/"
-=======
->>>>>>> 7caabfa25e37f71079bf4cf9dd4f1dfbe6095b01
 
       - name: Configure Pages
         uses: actions/configure-pages@v5
