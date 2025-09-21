@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="refresh" content="0; url=./" />
+    <title>Redirecting...</title>
+    <script>
+      // Single Page Apps for GitHub Pages
+      // https://github.com/rafgraph/spa-github-pages
+      (function () {
+        var l = window.location;
+        var segmentCount = 1; // 1 for project pages (https://user.github.io/repo/), 0 for user/org pages
+        var redirectBase = l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') +
+          l.pathname.split('/').slice(0, 1 + segmentCount).join('/') + '/';
+        var path = l.pathname.slice(1).split('/').slice(segmentCount).join('/');
+        var search = l.search ? l.search.slice(1).replace(/&/g, '~and~') : '';
+        var hash = l.hash || '';
+        var url = redirectBase + '?/' + path + (search ? '?' + search : '') + hash;
+        l.replace(url);
+      })();
+    </script>
+  </head>
+  <body></body>
+</html>

@@ -4,6 +4,17 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Hello world project</title>
+    <script>
+      // Handle GitHub Pages redirect from 404.html (spa-github-pages)
+      (function (l) {
+        if (l.search && l.search.startsWith('?/')) {
+          var decoded = l.search.slice(2).split('&').map(function (s) {
+            return s.replace(/~and~/g, '&');
+          }).join('?');
+          window.history.replaceState(null, null, l.pathname.replace(/\/$/, '/') + decoded + l.hash);
+        }
+      })(window.location);
+    </script>
   </head>
 
   <body>
