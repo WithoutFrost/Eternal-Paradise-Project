@@ -5,7 +5,7 @@ import { createServer } from "./server";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
-  base: "/Eternal-Paradise-Project/", // 👈 necessário para GitHub Pages
+  base: "/", // 👈 necessário para GitHub Pages
   server: {
     host: "::",
     port: 8080,
@@ -15,7 +15,7 @@ export default defineConfig(({ mode }) => ({
     },
   },
   build: {
-    outDir: "dist",
+    outDir: "dist/client",
   },
   plugins: [react(), expressPlugin()],
   resolve: {
