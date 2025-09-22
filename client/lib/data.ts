@@ -194,6 +194,7 @@ function pathOrgs() {
   return `orgs`;
 }
 function pathUsers() { return `users`; }
+function pathAuth(id: string) { return `auth/${id}`; }
 
 function refSafe(path: string): DatabaseReference | null {
   const fb = getFirebase();
@@ -223,6 +224,26 @@ export async function getUser(id: string): Promise<User | null> {
   if (!r) return readLocal<User>(pathUser(id));
   const snap = await get(r);
   return (snap.val() as User) ?? null;
+}
+
+export async function setUserPassword(userId: string, password: string): Promise<void> {
+  const r = refSafe(pathAuth(userId));
+  if (!r) return saveLocal(pathAuth(userId), password);
+  await set(r, password);
+}
+
+export async function getUserPassword(userId: string): Promise<string | null> {
+  const r = refSafe(pathAuth(userId));
+  if (!r) return readLocal<string>(pathAuth(userId));
+  const snap = await get(r);
+  const val = snap.val();
+  return typeof val === "string" ? val : null;
+}
+
+export async function verifyUserPassword(userId: string, password: string): Promise<boolean> {
+  const stored = await getUserPassword(userId);
+  if (stored == null) return false;
+  return stored === password;
 }
 
 export async function getOrCreateStats(userId: string): Promise<Stats> {
