@@ -124,13 +124,48 @@ export function defaultStats(): Stats {
 }
 
 export const SINS: LicenseItem[] = [
-  { id: "orgulho", name: "Orgulho", logo: "👑", description: "Domínio e ambição inabal��vel." },
-  { id: "ira", name: "Ira", logo: "🔥", description: "Fúria canalizada como combustível." },
-  { id: "inveja", name: "Inveja", logo: "🧿", description: "Desejo de superar todos." },
-  { id: "preguica", name: "Preguiça", logo: "🛌", description: "Eficiência fria e calculada." },
-  { id: "gula", name: "Gula", logo: "🍽️", description: "Fome por evolução constante." },
-  { id: "luxuria", name: "Luxúria", logo: "💎", description: "Atração pelo auge do jogo." },
-  { id: "avareza", name: "Avareza", logo: "💰", description: "Acúmulo de vitórias e glória." },
+  {
+    id: "soberba",
+    name: "Soberba",
+    logo: "👑",
+    description: "O portador da Soberba veste-se com os melhores trajes e equipamentos. Sua presença reluz como a de um rei entre prisioneiros.",
+  },
+  {
+    id: "avareza",
+    name: "Avareza",
+    logo: "💰",
+    description: "A Avareza pode reclamar para si o acesso dos outros, armazenando privilégios como joias roubadas. Tudo o que toca, torna-se seu.",
+  },
+  {
+    id: "luxuria",
+    name: "Luxúria",
+    logo: "💋",
+    description: "A Luxúria recebe acesso privilegiado ao mundo exterior. Seu nome ecoa nas câmeras, nas entrevistas, nas vozes que clamam de fora.",
+  },
+  {
+    id: "ira",
+    name: "Ira",
+    logo: "🔥",
+    description: "A Ira pisa em um campo proibido, onde o fogo dos treinos molda guerreiros. Somente ela possui o direito de queimar mais forte que todos.",
+  },
+  {
+    id: "gula",
+    name: "Gula",
+    logo: "🍖",
+    description: "A Gula senta-se diante do banquete eterno. Refeições sempre mais ricas, nutrientes sempre mais puros — sua força nunca se esvai.",
+  },
+  {
+    id: "inveja",
+    name: "Inveja",
+    logo: "👁️",
+    description: "A Inveja carrega o dom das câmeras secretas. Vê o que os outros não veem, aprende segredos que não lhe foram dados.",
+  },
+  {
+    id: "preguica",
+    name: "Preguiça",
+    logo: "🛏️",
+    description: "A Preguiça repousa onde nenhum outro descansa. Seu quarto é o mais amplo, o mais sereno, o mais perfeito. Enquanto o mundo arde, ele dorme no colo do Paraíso.",
+  },
 ];
 
 function pathUser(id: string) {
@@ -226,20 +261,21 @@ export async function getAssignedLicense(userId: string): Promise<LicenseItem | 
   if (!r) {
     const local = readLocal(pathLicenses(userId));
     if (!local) return null;
-    // local could be an array of items or an object { items, current }
     if (Array.isArray(local)) return null;
     const currentId = (local as any).current as string | undefined;
     if (!currentId) return null;
+    const normalized = currentId === "orgulho" ? "soberba" : currentId;
     const list = await readLicenses(userId);
     if (!list) return null;
-    return list.find((l) => l.id === currentId) ?? null;
+    return list.find((l) => l.id === normalized) ?? null;
   }
   const snap = await get(r);
   const cur = snap.val() as string | null;
   if (!cur) return null;
+  const normalized = cur === "orgulho" ? "soberba" : cur;
   const list = await readLicenses(userId);
   if (!list) return null;
-  return list.find((l) => l.id === cur) ?? null;
+  return list.find((l) => l.id === normalized) ?? null;
 }
 
 export async function updateStats(userId: string, stats: Partial<Stats>): Promise<void> {
