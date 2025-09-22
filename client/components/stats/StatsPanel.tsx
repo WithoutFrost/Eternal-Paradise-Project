@@ -80,16 +80,18 @@ export default function StatsPanel({ userId, editable = false }: { userId: strin
 
       <div className="space-y-2">
         {entries.map(([key, label]) => (
-          <div key={key} className="grid grid-cols-[1fr,auto,80px] items-center gap-2">
+          <div key={key} className="grid grid-cols-[1fr,auto,120px] items-center gap-2">
             <div className="text-sm text-neutral-300">{label}</div>
             <div className="text-xs text-yellow-400">{stats.ranks[key]}</div>
             {editable ? (
               <input
-                type="range"
-                min={1}
+                type="number"
+                min={0}
                 max={100}
+                step={0.1}
                 value={stats[key] as number}
                 onChange={(e) => setValue(key, Number(e.target.value))}
+                className="w-full rounded bg-black/20 px-2 py-1 text-right"
               />
             ) : (
               <div className="text-sm text-white/90 text-right">{stats[key] as number}</div>

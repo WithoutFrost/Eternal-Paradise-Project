@@ -11,7 +11,7 @@ import {
 } from "firebase/database";
 
 export type Role = "player" | "gm" | "npc";
-export type Rank = "S" | "A" | "B" | "C" | "D" | "E";
+export type Rank = "S" | "A" | "B" | "C" | "D" | "E" | "F" | "G";
 
 export interface User {
   id: string;
@@ -87,7 +87,9 @@ export function rankFromValue(v: number): Rank {
   if (v >= 70) return "B";
   if (v >= 60) return "C";
   if (v >= 50) return "D";
-  return "E";
+  if (v >= 40) return "E";
+  if (v >= 30) return "F";
+  return "G";
 }
 
 export function computeOVR(s: Omit<Stats, "ovr" | "ranks">): number {
